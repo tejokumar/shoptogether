@@ -1,23 +1,20 @@
 'use strict';
-
+var http = require('http');
+var bestBuyKey = '7p7nhhmq6ftt22347pmcz5dt';
 exports.list = function(req,res){
-	var products = [
-			{
-				sku:'123',
-				name:'Sony 50 Inch LED'
-			},
-			{
-				sku:'124',
-				name:'Samsung 50 Inch LED'
-			},
-			{
-				sku:'125',
-				name:'LG 50 Inch LED'
-			},
-			{
-				sku:'126',
-				name:'Vizio 50 Inch LED'
-			}
-		];
-		res.json(products);
+
+	var urlOptions = {
+		host:'api.remix.bestbuy.com',
+		path:'/v1/products(longDescription=iPhone*|sku=7619002)?show=sku,name&pageSize=15&page=5&apiKey='+bestBuyKey+'&format=json'
+	};
+	http.request(urlOptions,function(dataResponse){
+		var responseString = '';
+		dataResponse.on('data',function(chunk){
+			responseString += chunk;
+		});
+		dataResponse.on('end',function(){
+			var jsonDataResponse = JSON.parse(responseString);
+			res.json(jsonDataResponse.products);
+		});
+	}).end();
 };
