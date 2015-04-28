@@ -5,7 +5,7 @@ exports.list = function(req,res){
 
 	var urlOptions = {
 		host:'api.remix.bestbuy.com',
-		path:'/v1/products(longDescription=iPhone*|sku=7619002)?show=sku,name&pageSize=15&page=5&apiKey='+bestBuyKey+'&format=json'
+		path:'/v1/products(longDescription=iPhone*|sku=7619002)?show=sku,name,image,mediumImage,thumbnailImage,largeImage,salePrice&pageSize=15&page=5&apiKey='+bestBuyKey+'&format=json'
 	};
 	http.request(urlOptions,function(dataResponse){
 		var responseString = '';
