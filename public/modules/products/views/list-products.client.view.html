@@ -1,0 +1,10 @@
+<section ng-controller="ProductsController" ng-init="getProducts()">
+	<div class="page-header">
+		Products
+	</div>
+	<div class="list-group">
+			<span ng-repeat="product in products" class="list-group-item"> 
+				{{product.name}}
+			</span>
+	</div>
+</section>
