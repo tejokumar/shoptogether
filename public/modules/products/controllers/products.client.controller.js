@@ -6,6 +6,14 @@
 */
 angular.module('products').controller('ProductsController', ['$scope','Products', function($scope,Products){
 	$scope.getProducts = function(){
-		$scope.products = Products.query();
+		if($scope.searchText){
+			var sText = encodeURIComponent($scope.searchText);
+			$scope.products = Products.query({searchText:sText});
+		}else {
+			$scope.products = Products.query();
+		}
+	};
+	$scope.search = function(sText){
+		console.log(sText);
 	};
 }]);

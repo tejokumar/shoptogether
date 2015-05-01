@@ -1,6 +1,14 @@
 <section ng-controller="ProductsController" ng-init="getProducts()">
 	<div class="page-header">
 		Products
+		<form>
+			<div class="input-group">
+		      <input type="text" class="form-control" placeholder="Search for..." ng-model="searchText">
+		      <span class="input-group-btn">
+		        <button class="btn btn-default" ng-click="getProducts()" type="submit">Go!</button>
+		      </span>
+		    </div><!-- /input-group -->
+	    </form>
 	</div>
 	<div class="list-group">
 			<div ng-repeat="product in products" class="list-group-item row"> 
