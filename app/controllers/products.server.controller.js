@@ -4,7 +4,8 @@ var bestBuyKey = '7p7nhhmq6ftt22347pmcz5dt';
 exports.list = function(req,res){
 	var searchString = 'iPhone';
 	if(req.query && req.query.searchText){
-		var searchArray = req.query.searchText.split('%2520');
+		console.log(req.query.searchText);
+		var searchArray = req.query.searchText.split('%20');
 		searchString = searchArray.join('&search=');
 	}
 

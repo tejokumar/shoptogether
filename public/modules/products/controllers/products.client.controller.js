@@ -13,7 +13,4 @@ angular.module('products').controller('ProductsController', ['$scope','Products'
 			$scope.products = Products.query();
 		}
 	};
-	$scope.search = function(sText){
-		console.log(sText);
-	};
 }]);
