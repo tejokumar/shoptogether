@@ -1,10 +1,6 @@
 'use strict';
-/**
-*  Module
-*
-* Description
-*/
-angular.module('products').controller('ProductsController', ['$scope','Products', function($scope,Products){
+
+angular.module('products').controller('ProductsController', ['$rootScope','$scope','Products', function($rootScope,$scope,Products){
 	$scope.getProducts = function(){
 		if($scope.searchText){
 			var sText = encodeURIComponent($scope.searchText);
@@ -13,4 +9,8 @@ angular.module('products').controller('ProductsController', ['$scope','Products'
 			$scope.products = Products.query();
 		}
 	};
+    $scope.addProductToCart = function(product){
+        alert(product.name +" : "+product.quantity);
+        $rootScope.$emit('ADD_TO_CART',product);
+    };
 }]);

@@ -11,10 +11,21 @@
 	    </form>
 	</div>
 	<div class="list-group">
-			<div ng-repeat="product in products" class="list-group-item row"> 
-				<img ng-src="{{product.thumbnailImage}}" />
-				<div>{{product.name}}</div>
-				<div>{{product.salePrice}}</div>
+			<div ng-repeat="product in products" class="list-group-item row">
+                <div class="col-md-2">
+                    <img ng-src="{{product.thumbnailImage}}" />
+                </div>
+
+				<div class="col-md-6">{{product.name}}</div>
+				<div class="col-md-2">{{product.salePrice}}</div>
+                <div class="col-md-1">
+                    <input id="intNumberStep3" type="number" min="0" max="50" step="1" ng-model="product.quantity"/>
+                </div>
+                <div class="col-md-1">
+                    <a href="">
+                        <img src="modules/products/img/add139.png" ng-click="addProductToCart(product)"/>
+                    </a>
+                </div>
 			</div>
 	</div>
 </section>
