@@ -22,7 +22,7 @@
                     <input id="intNumberStep3" type="number" min="0" max="50" step="1" ng-model="product.quantity"/>
                 </div>
                 <div class="col-md-1">
-                    <a href="">
+                    <a href="" ng-if="!isProductInCart(product)">
                         <img src="modules/products/img/add139.png" ng-click="addProductToCart(product)"/>
                     </a>
                 </div>
