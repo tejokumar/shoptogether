@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('products').controller('ProductsController', ['$rootScope','$scope','$timeout','Products', function($rootScope,$scope,$timeout,Products){
-    $rootScope.productsInCart = [];
+
 	$scope.getProducts = function(){
 		if($scope.searchText){
 			var sText = encodeURIComponent($scope.searchText);
@@ -11,9 +11,10 @@ angular.module('products').controller('ProductsController', ['$rootScope','$scop
 		}
 	};
     $scope.addProductToCart = function(product){
-        alert(product.name +" : "+product.quantity);
         if(!product.quantity)
             product.quantity = 1;
+        if(!$rootScope.productsInCart)
+            $rootScope.productsInCart = [];
         $rootScope.productsInCart.push(product);
         $timeout(function(){
             $scope.products = $scope.products;

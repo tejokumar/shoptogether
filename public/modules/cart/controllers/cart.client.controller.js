@@ -4,5 +4,7 @@
 'use strict';
 
 angular.module('cart').controller('CartController',['$rootScope','$scope',function($rootScope,$scope){
-
+    $scope.getProducts = function(){
+        $scope.products = $rootScope.productsInCart;
+    };
 }]);

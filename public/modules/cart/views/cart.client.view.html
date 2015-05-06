@@ -1,10 +1,16 @@
-<!DOCTYPE html>
-<html>
-<head lang="en">
-    <meta charset="UTF-8">
-    <title></title>
-</head>
-<body>
-    Shopping Cart
-</body>
-</html>
+<section ng-controller="CartController" ng-init="getProducts()">
+    <div class="list-group">
+        <div ng-repeat="product in products" class="list-group-item row">
+            <div class="col-md-2">
+                <img ng-src="{{product.thumbnailImage}}" />
+            </div>
+
+            <div class="col-md-6">{{product.name}}</div>
+            <div class="col-md-2">{{product.salePrice}}</div>
+            <div class="col-md-2">
+                {{product.quantity}}
+            </div>
+
+        </div>
+    </div>
+ </section>
