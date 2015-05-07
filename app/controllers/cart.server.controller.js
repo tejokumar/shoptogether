@@ -26,6 +26,36 @@ exports.create = function(req, res) {
 };
 
 /**
+ * Update a cart
+ */
+exports.update = function(req, res) {
+    var cart = req.cart;
+
+    cart = _.extend(cart, req.body);
+
+    cart.save(function(err) {
+        if (err) {
+            return res.status(400).send({
+                message: errorHandler.getErrorMessage(err)
+            });
+        } else {
+            res.json(cart);
+        }
+    });
+};
+
+/**
+ * Cart middleware
+ */
+exports.cartById = function(req, res, next, id) {
+    Cart.findById(id).exec(function(err, cart) {
+        if (err) return next(err);
+        if (!cart) return next(new Error('Failed to load cart ' + id));
+        req.cart = cart;
+        next();
+    });
+};
+/**
  * List of Carts
  */
 exports.list = function(req, res) {

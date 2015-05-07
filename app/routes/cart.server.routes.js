@@ -10,4 +10,10 @@ module.exports = function(app) {
     app.route('/cart')
         .get(cart.list)
         .post(cart.create);
+
+    app.route('/cart/:cartId')
+        .put(cart.update);
+
+    // Finish by binding the article middleware
+    app.param('cartId', cart.cartById);
 };

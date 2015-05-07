@@ -3,8 +3,12 @@
  */
 'use strict';
 
-angular.module('cart').controller('CartController',['$rootScope','$scope',function($rootScope,$scope){
+angular.module('cart').controller('CartController',['$rootScope','$scope','Cart',function($rootScope,$scope,Cart){
     $scope.getProducts = function(){
         $scope.products = $rootScope.productsInCart;
     };
+    console.log('In Cart Controller :');
+    $scope.$on('ADD_TO_CART',function(event,args){
+        console.log('Adding to cart :');
+    });
 }]);
