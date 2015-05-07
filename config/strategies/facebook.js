@@ -15,6 +15,7 @@ module.exports = function() {
 			clientID: config.facebook.clientID,
 			clientSecret: config.facebook.clientSecret,
 			callbackURL: config.facebook.callbackURL,
+            profileFields: ['id','name','emails','picture.type(large)','displayName'],
 			passReqToCallback: true
 		},
 		function(req, accessToken, refreshToken, profile, done) {
@@ -30,6 +31,7 @@ module.exports = function() {
 				displayName: profile.displayName,
 				email: profile.emails[0].value,
 				username: profile.username,
+                profilePicture: profile.photos && profile.photos.length > 0 ? profile.photos[0].value : '',
 				provider: 'facebook',
 				providerIdentifierField: 'id',
 				providerData: providerData

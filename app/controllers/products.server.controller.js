@@ -27,7 +27,7 @@ exports.list = function(req,res){
             if(jsonDataResponse.products){
                 var products = jsonDataResponse.products;
                 Cart.find().sort('-created').exec(function(err,carts){
-                    if(!err && carts){
+                    if(!err && carts && carts.length > 0){
                         var cart = carts[0];
                         var cartProducts = cart.products;
                         _.forEach(cartProducts,function(cartProduct){
