@@ -5,10 +5,10 @@
 
 angular.module('cart').controller('CartController',['$rootScope','$scope','Cart',function($rootScope,$scope,Cart){
     $scope.getProducts = function(){
-        $scope.products = $rootScope.productsInCart;
+        Cart.query().$promise.then(function(cartData){
+            if(cartData && cartData.length > 0){
+                $scope.products = cartData[0].products;
+            }
+        });
     };
-    console.log('In Cart Controller :');
-    $scope.$on('ADD_TO_CART',function(event,args){
-        console.log('Adding to cart :');
-    });
 }]);
