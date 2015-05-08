@@ -32,6 +32,9 @@ angular.module('products').controller('ProductsController', ['lodash','$rootScop
             product.quantity = 1;
         product.isInCart = true;
         $rootScope.cart.products.push(_productForCart(product));
+        saveCart();
+    };
+    var saveCart = function(){
         if($rootScope.cart.cartId){
             $rootScope.cart.$update();
         }else {
@@ -40,18 +43,27 @@ angular.module('products').controller('ProductsController', ['lodash','$rootScop
             });
         }
     };
-
+    var removeFromCart = function(product){
+        delete product.isInCart;
+        delete product.quantity;
+        _.remove($rootScope.cart.products,function(object){
+            return object.sku === product.sku;
+        });
+        saveCart();
+    };
     var _productForCart = function(product){
         if(product){
             return {
                 sku:product.sku,
                 name:product.name,
                 quantity:product.quantity,
-                salePrice:product.salePrice
+                salePrice:product.salePrice,
+                thumbnailImage:product.thumbnailImage
             }
         }
     };
     $scope.initializeData = initializeData;
     $scope.addProductToCart = addProductToCart;
+    $scope.removeFromCart = removeFromCart;
 
 }]);
