@@ -18,12 +18,15 @@
 
 				<div class="col-md-6">{{product.name}}</div>
 				<div class="col-md-2">{{product.salePrice}}</div>
-                <div class="col-md-1">
-                    <input id="intNumberStep3" type="number" min="0" max="50" step="1" ng-model="product.quantity"/>
+                <div class="col-md-1" >
+                    <input id="intNumberStep3" type="number" min="0" max="50" step="1" ng-model="product.quantity" ng-hide="product.isInCart"/>
                 </div>
-                <div class="col-md-1" ng-hide="product.isInCart">
-                    <a href="">
-                        <img src="modules/products/img/add139.png" ng-click="addProductToCart(product)"/>
+                <div class="col-md-1" >
+                    <a href="" ng-hide="product.isInCart">
+                        <img src="modules/products/img/button_plus_green.ico" ng-click="addProductToCart(product)"/>
+                    </a>
+                    <a href="" ng-show="product.isInCart">
+                        <img src="modules/products/img/button_minus_red.ico" ng-click="addProductToCart(product)"/>
                     </a>
                 </div>
 			</div>

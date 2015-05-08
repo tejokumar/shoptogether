@@ -1,11 +1,8 @@
 'use strict';
 
-angular.module('products').controller('ProductsController', ['$rootScope','$scope','$timeout','Products','Cart',function($rootScope,$scope,$timeout,Products,Cart){
-    $scope.initializeData = function(){
-        $scope.getProducts();
-        $scope._getCart();
-    };
-	$scope.getProducts = function(){
+angular.module('products').controller('ProductsController', ['lodash','$rootScope','$scope','$timeout','Products','Cart',function(_,$rootScope,$scope,$timeout,Products,Cart){
+
+	var getProducts = function(){
 		if($scope.searchText){
 			var sText = encodeURIComponent($scope.searchText);
 			$scope.products = Products.query({searchText:sText});
@@ -13,7 +10,7 @@ angular.module('products').controller('ProductsController', ['$rootScope','$scop
 			$scope.products = Products.query();
 		}
 	};
-    $scope._getCart =  function(){
+    var getCart =  function(){
         Cart.query().$promise.then(function(carts){
             if(carts && carts.length > 0){
                 $rootScope.cart = new Cart(carts[0]);
@@ -25,11 +22,16 @@ angular.module('products').controller('ProductsController', ['$rootScope','$scop
         });
 
     };
-    $scope.addProductToCart = function(product){
+
+    var initializeData = function(){
+        getProducts();
+        getCart();
+    };
+    var addProductToCart = function(product){
         if(!product.quantity)
             product.quantity = 1;
-
-        $rootScope.cart.products.push(product);
+        product.isInCart = true;
+        $rootScope.cart.products.push(_productForCart(product));
         if($rootScope.cart.cartId){
             $rootScope.cart.$update();
         }else {
@@ -38,12 +40,18 @@ angular.module('products').controller('ProductsController', ['$rootScope','$scop
             });
         }
     };
-    $scope.isProductInCart = function(product){
-        for(var prod in $rootScope.productsInCart){
-            if(prod.sku === product.sku){
-                return true;
+
+    var _productForCart = function(product){
+        if(product){
+            return {
+                sku:product.sku,
+                name:product.name,
+                quantity:product.quantity,
+                salePrice:product.salePrice
             }
         }
-        return false;
     };
+    $scope.initializeData = initializeData;
+    $scope.addProductToCart = addProductToCart;
+
 }]);
