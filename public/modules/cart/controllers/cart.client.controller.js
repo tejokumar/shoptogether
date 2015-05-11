@@ -8,7 +8,9 @@ angular.module('cart').controller('CartController',['$rootScope','$scope','CartS
         $scope.cart = CartService.cart;
     };
     $scope.removeFromCart = function(product){
-        CartService.removeFromCart(product);
-        $scope.getCart();
+        CartService.removeFromCart(product,function(cart){
+            $scope.cart = cart;
+        });
+
     };
 }]);

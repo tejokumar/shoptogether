@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('core').service('CartService',['lodash','Cart',function(_,Cart){
+angular.module('cart').service('CartService',['lodash','Cart',function(_,Cart){
     var self = this;
     Cart.query().$promise.then(function(carts){
         if(carts && carts.length > 0){
@@ -11,29 +11,37 @@ angular.module('core').service('CartService',['lodash','Cart',function(_,Cart){
             });
         }
     });
-    this.addProductToCart = function(product){
+    this.addProductToCart = function(product,successCallback,errorCallback){
         if(!product.quantity)
             product.quantity = 1;
         product.isInCart = true;
         this.cart.products.push(_productForCart(product));
-        this.saveCart();
+        this.saveCart(successCallback,errorCallback);
     };
-    this.saveCart = function(){
+    this.saveCart = function(successCallback,errorCallback){
         if(this.cart.cartId){
-            this.cart.$update();
+            this.cart.$update(function(response){
+                self.cart = new Cart(response);
+                if(successCallback){
+                    successCallback(self.cart);
+                }
+            },errorCallback);
         }else {
             this.cart.$save(function(response){
-                this.cart = new Cart(response);
-            });
+                self.cart = new Cart(response);
+                if(successCallback){
+                    successCallback(self.cart);
+                }
+            },errorCallback);
         }
     };
-    this.removeFromCart = function(product){
+    this.removeFromCart = function(product,successCallback,errorCallback){
         delete product.isInCart;
         delete product.quantity;
         _.remove(this.cart.products,function(object){
             return object.sku === product.sku;
         });
-        this.saveCart();
+        this.saveCart(successCallback,errorCallback);
     };
     var _productForCart = function(product){
         if(product){
