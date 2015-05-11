@@ -14,6 +14,7 @@ var mongoose = require('mongoose'),
 exports.create = function(req, res) {
     var cart = new Cart(req.body);
     cart.cartId = mongoose.Types.ObjectId();
+    cart.owner = req.user.username;
     cart.save(function(err) {
         if (err) {
             return res.status(400).send({
@@ -55,11 +56,19 @@ exports.cartById = function(req, res, next, id) {
         next();
     });
 };
+exports.hasAuthorization = function(req,res,next){
+    if (req.cart.owner !== req.user.username) {
+        return res.status(403).send({
+            message: 'User is not authorized'
+        });
+    }
+    next();
+};
 /**
  * List of Carts
  */
 exports.list = function(req, res) {
-    Cart.find().sort('-created').exec(function(err, carts) {
+    Cart.find({owner:req.user.username}).sort('-created').exec(function(err, carts) {
         if (err) {
             return res.status(400).send({
                 message: errorHandler.getErrorMessage(err)

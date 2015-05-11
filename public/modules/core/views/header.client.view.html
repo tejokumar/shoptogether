@@ -17,7 +17,7 @@
 				</a>
 				<ul ng-switch-when="dropdown" class="dropdown-menu">
 					<li data-ng-repeat="subitem in item.items | orderBy: 'position'" data-ng-if="subitem.shouldRender(authentication.user);" ui-route="{{subitem.uiRoute}}" ng-class="{active: $uiRoute}">
-						<a href="/#!/{{subitem.link}}" data-ng-bind="subitem.title"></a>
+						<a href="/#!/{{subitem.link}}" data-ng-bind="subitem.title"></a>Ò
 					</li>
 				</ul>
 				<a ng-switch-default href="/#!/{{item.link}}" data-ng-bind="item.title"></a>
@@ -31,9 +31,6 @@
 			<li ui-route="/signin" ng-class="{active: $uiRoute}">
 				<a href="/#!/signin">Sign In</a>
 			</li>
-            <li ui-route="/cart" ng-class="{active: $uiRoute}">
-                <a href="/#!/cart"><img src="modules/products/img/subtract_from_cart.png" width="30px" height="30px"/></a>
-            </li>
 		</ul>
 		<ul class="nav navbar-nav navbar-right" data-ng-show="authentication.user">
 			<li class="dropdown">

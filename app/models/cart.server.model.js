@@ -14,6 +14,15 @@ var CartSchema = new Schema({
         type: Date,
         default: Date.now
     },
+    owner: {
+        type: String,
+        trim:true
+    },
+    cartType: {
+        type: String,
+        default: 'PRIVATE'
+    },
+    contributors:[],
     products:[],
     cartId: {
         type: String,

@@ -3,12 +3,12 @@
  */
 'use strict';
 
-angular.module('cart').controller('CartController',['$rootScope','$scope','Cart',function($rootScope,$scope,Cart){
-    $scope.getProducts = function(){
-        Cart.query().$promise.then(function(cartData){
-            if(cartData && cartData.length > 0){
-                $scope.products = cartData[0].products;
-            }
-        });
+angular.module('cart').controller('CartController',['$rootScope','$scope','CartService',function($rootScope,$scope,CartService){
+    $scope.getCart = function(){
+        $scope.cart = CartService.cart;
+    };
+    $scope.removeFromCart = function(product){
+        CartService.removeFromCart(product);
+        $scope.getCart();
     };
 }]);

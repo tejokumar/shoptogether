@@ -1,16 +1,20 @@
-<section ng-controller="CartController" ng-init="getProducts()">
+<section ng-controller="CartController" ng-init="getCart()">
     <div class="list-group">
-        <div ng-repeat="product in products" class="list-group-item row">
+        <div ng-repeat="product in cart.products" class="list-group-item row">
             <div class="col-md-2">
                 <img ng-src="{{product.thumbnailImage}}" />
             </div>
 
             <div class="col-md-6">{{product.name}}</div>
             <div class="col-md-2">{{product.salePrice}}</div>
-            <div class="col-md-2">
+            <div class="col-md-1">
                 {{product.quantity}}
             </div>
-
+            <div class="col-md-1">
+                <a href="">
+                    <img src="modules/products/img/button_minus_red.ico" ng-click="removeFromCart(product)"/>
+                </a>
+            </div>
         </div>
     </div>
  </section>
