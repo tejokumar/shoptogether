@@ -6,8 +6,8 @@ module.exports = {
 		title: 'shoptogether - Development Environment'
 	},
 	facebook: {
-		clientID: process.env.FACEBOOK_ID || '270958783106193',
-		clientSecret: process.env.FACEBOOK_SECRET || '3b3b29ae7541e3f18c0458810a8a8ed7',
+		clientID: process.env.FACEBOOK_ID || '853840754663780',
+		clientSecret: process.env.FACEBOOK_SECRET || '7f0353fabbd70cbb45e182951d4fdf03',
 		callbackURL: '/auth/facebook/callback'
 	},
 	twitter: {
