@@ -1,4 +1,10 @@
 <section ng-controller="CartController" ng-init="getCart()">
+    <div class="page-header">
+        Cart
+    </div>
+    <div>
+        <button type="button" class="btn btn-default" ng-click="openToShare()">Share with friends!</button>
+    </div>
     <div class="list-group">
         <div ng-repeat="product in cart.products" class="list-group-item row">
             <div class="col-md-2">

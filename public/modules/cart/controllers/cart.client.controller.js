@@ -3,7 +3,7 @@
  */
 'use strict';
 
-angular.module('cart').controller('CartController',['$rootScope','$scope','CartService',function($rootScope,$scope,CartService){
+angular.module('cart').controller('CartController',['$rootScope','$scope','$modal','CartService',function($rootScope,$scope,$modal,CartService){
     $scope.getCart = function(){
         $scope.cart = CartService.cart;
     };
@@ -12,5 +12,19 @@ angular.module('cart').controller('CartController',['$rootScope','$scope','CartS
             $scope.cart = cart;
         });
 
+    };
+    $scope.openToShare = function(){
+        var modalInstance = $modal.open({
+            templateUrl: 'modules/users/views/user-friends.client.view.html',
+            controller: 'UserController',
+            size:'lg'
+        });
+        modalInstance.result.then(function (selectedFriends) {
+            if(selectedFriends){
+                console.log('No of selected friends : '+selectedFriends.length);
+            }
+        }, function () {
+            console.log('Cancelled');
+        });
     };
 }]);

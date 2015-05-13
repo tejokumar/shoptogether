@@ -1,0 +1,25 @@
+<section>
+    <div class="modal-header">
+        My Friends
+    </div>
+    <div class="modal-body">
+        <div class="list-group">
+            <div ng-repeat="friend in friends" class="list-group-item row">
+                <div class="col-md-4">
+                    <img ng-src="{{friend.profilePicture}}" height="30px" width="30px"/>
+                </div>
+
+                <div class="col-md-3">{{friend.displayName}}</div>
+                <div class="col-md-3">{{friend.email}}</div>
+
+                <div class="col-md-2 checkbox">
+                    <input type="checkbox" ng-model="friend.selected">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" ng-click="share()">Share</button>
+        <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+    </div>
+</section>

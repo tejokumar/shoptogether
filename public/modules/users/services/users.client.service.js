@@ -6,7 +6,12 @@ angular.module('users').factory('Users', ['$resource',
 		return $resource('users', {}, {
 			update: {
 				method: 'PUT'
-			}
+			},
+            friends: {
+                method: 'GET',
+                url: 'users/me/friends',
+                isArray: true
+            }
 		});
 	}
 ]);
