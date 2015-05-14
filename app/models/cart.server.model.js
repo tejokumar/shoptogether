@@ -18,6 +18,10 @@ var CartSchema = new Schema({
         type: String,
         trim:true
     },
+    name:{
+        type: String,
+        default: ''
+    },
     cartType: {
         type: String,
         default: 'PRIVATE'

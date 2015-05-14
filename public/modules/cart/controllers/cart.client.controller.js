@@ -4,15 +4,38 @@
 'use strict';
 
 angular.module('cart').controller('CartController',['lodash','$scope',
-    '$modal','CartService','Authentication', function(_,$scope,$modal,CartService,Authentication){
-    $scope.getCart = function(){
-        $scope.cart = CartService.cart;
+    '$modal','CartService','Cart','Authentication', function(_,$scope,$modal,CartService,Cart,Authentication){
+    $scope.initializeCarts = function(){
+        CartService.getCarts(function(){
+            $scope.allCarts = CartService.allCarts;
+            $scope.cart = CartService.cart;
+        });
     };
     $scope.removeFromCart = function(product){
         CartService.removeFromCart(product,function(cart){
             $scope.cart = cart;
         });
 
+    };
+    $scope.saveCart   = function(){
+        CartService.cart = $scope.cart;
+        CartService.saveCart();
+    };
+    $scope.openNewCartPopup = function(){
+        $scope.newCart = new Cart({
+            cartType:'PRIVATE',
+            products:[]
+        });
+        var modalInstance = $modal.open({
+            templateUrl: 'modules/cart/views/new-cart.client.view.html',
+            controller: 'ModalCartController',
+            size:'sm'
+        });
+        modalInstance.result.then(function (newCart) {
+            CartService.saveCart(newCart,function(){
+                $scope.allCarts = CartService.allCarts;
+            });
+        });
     };
     $scope.openToShare = function(){
         var modalInstance = $modal.open({
@@ -25,9 +48,8 @@ angular.module('cart').controller('CartController',['lodash','$scope',
                 var currentUser = _.find(CartService.cart.contributors,function(contributor){
                     return contributor.username === Authentication.user.username;
                 });
-                CartService.cart.contributors = selectedFriends;
-                CartService.cart.contributors.push(currentUser);
-                CartService.saveCart();
+                $scope.cart.contributors = selectedFriends;
+                $scope.cart.contributors.push(currentUser);
             }
         });
     };

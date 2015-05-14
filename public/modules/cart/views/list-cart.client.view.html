@@ -1,0 +1,25 @@
+<section ng-controller="CartController" ng-init="initializeCarts()">
+    <div class="page-header">
+        All Carts <button type="default" ng-click="openNewCartPopup()">Create New!</button>
+    </div>
+    <table class="table-striped col-md-12">
+        <tr>
+            <th class="col-md-3">Name</th>
+            <th class="col-md-1">Type</th>
+            <th class="col-md-3">Contributors</th>
+            <th class="col-md-2">Actions</th>
+        </tr>
+        <tr ng-repeat="cart in allCarts">
+            <td>{{cart.name}}</td>
+            <td>{{cart.cartType}}</td>
+            <td>
+                <div class="list">
+                    <div ng-repeat="contributor in cart.contributors" class="list-item">
+                        {{contributor.displayName}}
+                    </div>
+                </div>
+            </td>
+            <td>Buttons here</td>
+        </tr>
+    </table>
+</section>

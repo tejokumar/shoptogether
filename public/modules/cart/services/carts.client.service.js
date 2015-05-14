@@ -1,16 +1,30 @@
 'use strict';
 
 angular.module('cart').service('CartService',['lodash','Cart',function(_,Cart){
-    var self = this;
-    Cart.query().$promise.then(function(carts){
-        if(carts && carts.length > 0){
-            self.cart = new Cart(carts[0]);
-        }else {
-            self.cart = new Cart({
-                products:[]
-            });
-        }
-    });
+
+    this.allCarts = [];
+    this.getCarts = function(callback){
+        var self = this;
+        Cart.query().$promise.then(function(carts){
+            self.allCarts = [];
+            if(carts && carts.length > 0){
+                _.forEach(carts,function(cart){
+                    self.allCarts.push(cart);
+                });
+                self.cart = self.allCarts[0];
+            }else {
+                self.cart = new Cart({
+                    cartType:'PRIVATE',
+                    products:[]
+                });
+                self.allCarts.push(self.cart);
+            }
+            if(callback && typeof callback === 'function'){
+                callback();
+            }
+        });
+    };
+    this.getCarts();
     this.addProductToCart = function(product,successCallback,errorCallback){
         if(!product.quantity)
             product.quantity = 1;
@@ -18,24 +32,31 @@ angular.module('cart').service('CartService',['lodash','Cart',function(_,Cart){
         this.cart.products.push(_productForCart(product));
         this.saveCart(successCallback,errorCallback);
     };
-    this.saveCart = function(successCallback,errorCallback){
-        if(this.cart.contributors && this.cart.contributors.length > 1){
-            this.cart.cartType = 'SHARED';
+    this.saveCart = function(cart,successCallback,errorCallback){
+        var self = this;
+        var cartToSave = cart ? cart : this.cart;
+        if(cartToSave.contributors && cartToSave.contributors.length > 1){
+            cartToSave.cartType = 'SHARED';
         }else {
-            this.cart.cartType = 'PRIVATE';
+            cartToSave.cartType = 'PRIVATE';
         }
-        if(this.cart.cartId){
-            this.cart.$update(function(response){
-                self.cart = new Cart(response);
+        if(cartToSave.cartId){
+            cartToSave.$update(function(response){
+                cartToSave = new Cart(response);
+                var cartIndex = _.findIndex(self.allCarts,function(cart){
+                    return cart.cartId === cartToSave.cartId;
+                });
+                self.allCarts.splice(cartIndex,1,cartToSave);
                 if(successCallback){
-                    successCallback(self.cart);
+                    successCallback(cartToSave);
                 }
             },errorCallback);
         }else {
-            this.cart.$save(function(response){
-                self.cart = new Cart(response);
+            cartToSave.$save(function(response){
+                cartToSave = new Cart(response);
+                self.allCarts.push(cartToSave);
                 if(successCallback){
-                    successCallback(self.cart);
+                    successCallback(cartToSave);
                 }
             },errorCallback);
         }

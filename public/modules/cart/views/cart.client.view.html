@@ -1,6 +1,9 @@
-<section ng-controller="CartController" ng-init="getCart()">
+<section ng-controller="CartController" ng-init="initializeCarts()">
     <div class="page-header">
-        Cart
+        <div class="row">
+            <input type="text" ng-model="cart.name" class="col-md-6">
+            <button type="submit" ng-click="saveCart()">Save!</button>
+        </div>
     </div>
     <div>
         <button type="button" class="btn btn-default" ng-click="openToShare()">Share with friends!</button>
@@ -12,11 +15,11 @@
             </div>
 
             <div class="col-md-6">{{product.name}}</div>
-            <div class="col-md-2">{{product.salePrice}}</div>
+            <div class="col-md-1">{{product.salePrice}}</div>
             <div class="col-md-1">
-                {{product.quantity}}
+                <input type="number" ng-model="product.quantity" min="0" max="50" step="1">
             </div>
-            <div class="col-md-1">
+            <div class="col-md-2">
                 <a href="/#!/cart">
                     <img src="modules/products/img/button_minus_red.ico" ng-click="removeFromCart(product)"/>
                 </a>
