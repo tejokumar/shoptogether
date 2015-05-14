@@ -19,6 +19,11 @@ angular.module('cart').service('CartService',['lodash','Cart',function(_,Cart){
         this.saveCart(successCallback,errorCallback);
     };
     this.saveCart = function(successCallback,errorCallback){
+        if(this.cart.contributors && this.cart.contributors.length > 1){
+            this.cart.cartType = 'SHARED';
+        }else {
+            this.cart.cartType = 'PRIVATE';
+        }
         if(this.cart.cartId){
             this.cart.$update(function(response){
                 self.cart = new Cart(response);

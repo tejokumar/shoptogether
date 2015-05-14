@@ -15,6 +15,13 @@ exports.create = function(req, res) {
     var cart = new Cart(req.body);
     cart.cartId = mongoose.Types.ObjectId();
     cart.owner = req.user.username;
+    cart.contributors.push({
+        username : req.user.username,
+        profilePicture : req.user.profilePicture,
+        displayName : req.user.displayName,
+        email : req.user.providerData.email,
+        id : req.user.providerData.id
+    });
     cart.save(function(err) {
         if (err) {
             return res.status(400).send({
@@ -68,7 +75,7 @@ exports.hasAuthorization = function(req,res,next){
  * List of Carts
  */
 exports.list = function(req, res) {
-    Cart.find({owner:req.user.username}).sort('-created').exec(function(err, carts) {
+    Cart.find({contributors:{$elemMatch:{username:req.user.username}}}).sort('-created').exec(function(err, carts) {
         if (err) {
             return res.status(400).send({
                 message: errorHandler.getErrorMessage(err)

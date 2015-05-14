@@ -3,7 +3,8 @@
  */
 'use strict';
 
-angular.module('cart').controller('CartController',['$rootScope','$scope','$modal','CartService',function($rootScope,$scope,$modal,CartService){
+angular.module('cart').controller('CartController',['lodash','$scope',
+    '$modal','CartService','Authentication', function(_,$scope,$modal,CartService,Authentication){
     $scope.getCart = function(){
         $scope.cart = CartService.cart;
     };
@@ -21,10 +22,13 @@ angular.module('cart').controller('CartController',['$rootScope','$scope','$moda
         });
         modalInstance.result.then(function (selectedFriends) {
             if(selectedFriends){
-                console.log('No of selected friends : '+selectedFriends.length);
+                var currentUser = _.find(CartService.cart.contributors,function(contributor){
+                    return contributor.username === Authentication.user.username;
+                });
+                CartService.cart.contributors = selectedFriends;
+                CartService.cart.contributors.push(currentUser);
+                CartService.saveCart();
             }
-        }, function () {
-            console.log('Cancelled');
         });
     };
 }]);
