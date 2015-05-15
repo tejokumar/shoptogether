@@ -8,17 +8,21 @@ angular.module('cart').controller('CartController',['lodash','$scope',
     $scope.initializeCarts = function(){
         CartService.getCarts(function(){
             $scope.allCarts = CartService.allCarts;
-            $scope.cart = CartService.cart;
+            $scope.selectedCart = CartService.cart;
         });
+    };
+    $scope.selectCart = function(cart){
+        CartService.cart = cart;
+        $scope.selectedCart = cart;
     };
     $scope.removeFromCart = function(product){
         CartService.removeFromCart(product,function(cart){
-            $scope.cart = cart;
+            $scope.selectedCart = cart;
         });
 
     };
     $scope.saveCart   = function(){
-        CartService.cart = $scope.cart;
+        CartService.cart = $scope.selectedCart;
         CartService.saveCart();
     };
     $scope.openNewCartPopup = function(){
@@ -48,8 +52,8 @@ angular.module('cart').controller('CartController',['lodash','$scope',
                 var currentUser = _.find(CartService.cart.contributors,function(contributor){
                     return contributor.username === Authentication.user.username;
                 });
-                $scope.cart.contributors = selectedFriends;
-                $scope.cart.contributors.push(currentUser);
+                $scope.selectedCart.contributors = selectedFriends;
+                $scope.selectedCart.contributors.push(currentUser);
             }
         });
     };
